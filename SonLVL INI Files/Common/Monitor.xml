@@ -38,13 +38,17 @@
       <ArtFile filename="../art/nemesis/Monitor and contents.nem" />
       <MapFile type="ASM" filename="../mappings/sprite/obj26.asm" frame="9" startpal="0" />
     </ImageFromMappings>
-    <ImageFromMappings id="random">
+    <ImageFromMappings id="super">
       <ArtFile filename="../art/nemesis/Monitor and contents.nem" />
       <MapFile type="ASM" filename="../mappings/sprite/obj26.asm" frame="10" startpal="0" />
     </ImageFromMappings>
-    <ImageFromMappings id="broken">
+    <ImageFromMappings id="random">
       <ArtFile filename="../art/nemesis/Monitor and contents.nem" />
       <MapFile type="ASM" filename="../mappings/sprite/obj26.asm" frame="11" startpal="0" />
+    </ImageFromMappings>
+    <ImageFromMappings id="broken">
+      <ArtFile filename="../art/nemesis/Monitor and contents.nem" />
+      <MapFile type="ASM" filename="../mappings/sprite/obj26.asm" frame="12" startpal="0" />
     </ImageFromMappings>
   </Images>
   <Subtypes>
@@ -57,8 +61,9 @@
     <Subtype id="06" name="Shield" image="shield" />
     <Subtype id="07" name="Invincibility" image="invincibility" />
     <Subtype id="08" name="Teleport" image="teleport" />
-    <Subtype id="09" name="Random" image="random" />
-    <Subtype id="0A" name="Broken" image="broken" />
+    <Subtype id="09" name="Super" image="super" />
+    <Subtype id="0A" name="Random" image="random" />
+    <Subtype id="0B" name="Broken" image="broken" />
   </Subtypes>
   <Properties>
     <BitsProperty name="Contents" type="MonitorType" startbit="0" length="4" />

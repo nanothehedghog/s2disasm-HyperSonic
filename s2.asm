@@ -3021,7 +3021,6 @@ PalCycle_SuperSonic:
 	lea	(Normal_palette+4).w,a1
 	move.l	(a0,d0.w),(a1)+
 	move.l	4(a0,d0.w),(a1)
-    if fixBugs
 	; underwater palettes
 	lea	(CyclingPal_CPZUWTransformation).l,a0
 	cmpi.b	#chemical_plant_zone,(Current_Zone).w
@@ -3032,11 +3031,6 @@ PalCycle_SuperSonic:
 +	lea	(Underwater_palette+4).w,a1
 	move.l	(a0,d0.w),(a1)+
 	move.l	4(a0,d0.w),(a1)
-    else
-	; Note: The fade in for Sonic's underwater palette is missing.
-	; Because of this, Super Sonic's transformation will be uncorrect
-	; when underwater.
-    endif
 .return:
 	rts
 ; ===========================================================================
@@ -3052,13 +3046,7 @@ PalCycle_SuperSonic:
 	move.w	(Palette_frame).w,d0
 	subq.w	#8,(Palette_frame).w	; previous frame
 	bcc.s	+			; branch, if it isn't the first frame
-    if fixBugs
 	move.w	#0,(Palette_frame).w
-    else
-	; This does not clear the full variable, causing this palette cycle
-	; to behave incorrectly the next time it is activated.
-	move.b	#0,(Palette_frame).w
-    endif
 	move.b	#0,(Super_Sonic_palette).w	; stop palette cycle
 +
 	lea	(Normal_palette+4).w,a1
@@ -3081,20 +3069,15 @@ PalCycle_SuperSonic:
 	; run frame timer
 	subq.b	#1,(Palette_timer).w
 	bpl.s	.return
-	move.b	#7,(Palette_timer).w
+	move.b	#4,(Palette_timer).w
 
 	; increment palette frame and update Sonic's palette
-	lea	(CyclingPal_SSTransformation).l,a0
+	lea	(CyclingPal_HSCycle).l,a0
 	move.w	(Palette_frame).w,d0
 	addq.w	#8,(Palette_frame).w	; next frame
-	cmpi.w	#$78,(Palette_frame).w	; is it the last frame?
-    if fixBugs
+	cmpi.w	#$48,(Palette_frame).w	; is it the last frame?
 	bls.s	+			; if not, branch
-    else
-	; This condition causes the last frame to be skipped.
-	blo.s	+			; if not, branch
-    endif
-	move.w	#$30,(Palette_frame).w	; reset frame counter (Super Sonic's normal palette cycle starts at $30. Everything before that is for the palette fade)
+	move.w	#0,(Palette_frame).w	; reset frame counter (Super Sonic's normal palette cycle starts at $30. Everything before that is for the palette fade)
 +
 	lea	(Normal_palette+4).w,a1
 	move.l	(a0,d0.w),(a1)+
@@ -3131,7 +3114,12 @@ CyclingPal_CPZUWTransformation:
 ; Pal_2346:
 CyclingPal_ARZUWTransformation:
 	BINCLUDE	"art/palettes/ARZWater SS transformation.bin"
-
+;----------------------------------------------------------------------------
+;Palette for transformation to Hyper Sonic
+;----------------------------------------------------------------------------
+; Pal_2346:
+CyclingPal_HSCycle:
+	BINCLUDE	"art/palettes/Hyper Sonic Cycle.bin"
 ; ---------------------------------------------------------------------------
 ; Subroutine to fade in from black
 ; ---------------------------------------------------------------------------
@@ -25450,7 +25438,7 @@ Obj26_Init:
 	btst	#0,Obj_respawn_data-Object_Respawn_Table(a2,d0.w)	; if this bit is set it means the monitor is already broken
 	beq.s	+
 	move.b	#8,routine(a0)	; set monitor to 'broken' state
-	move.b	#$B,mapping_frame(a0)
+	move.b	#$C,mapping_frame(a0)
 	rts
 ; ---------------------------------------------------------------------------
 +
@@ -25458,7 +25446,7 @@ Obj26_Init:
 	move.b	subtype(a0),anim(a0)	; subtype = icon to display
 	tst.w	(Two_player_mode).w	; is it two player mode?
 	beq.s	Obj26_Main		; if not, branch
-	move.b	#9,anim(a0)		; use '?' icon
+	move.b	#$A,anim(a0)		; use '?' icon
 ; loc_12A00: obj_26_sub_2:
 Obj26_Main:
 	move.b	routine_secondary(a0),d0
@@ -25604,7 +25592,7 @@ Obj26_SpawnSmoke:
     endif
 	bset	#0,Obj_respawn_data-Object_Respawn_Table(a2,d0.w)	; mark monitor as destroyed
 +
-	move.b	#$A,anim(a0)
+	move.b	#$B,anim(a0)
 	bra.w	DisplaySprite
 
 ; ===========================================================================
@@ -25708,7 +25696,8 @@ Obj2E_Types:	offsetTable
 		offsetTableEntry.w shield_monitor	; 6 - Shield
 		offsetTableEntry.w invincible_monitor	; 7 - Invincibility
 		offsetTableEntry.w teleport_monitor	; 8 - Teleport
-		offsetTableEntry.w qmark_monitor	; 9 - Question mark
+		offsetTableEntry.w super_monitor	; 9 - Super
+		offsetTableEntry.w qmark_monitor	; 10 - Question mark
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Robotnik Monitor
@@ -26073,6 +26062,33 @@ teleport_swap_table:
 	TeleportTableEntry	Sonic_Pos_Record_Buf,     Tails_Pos_Record_Buf
 teleport_swap_table_end:
 
+; ---------------------------------------------------------------------------
+; Super Monitor
+; gives the player a Super form (but not tails
+; ---------------------------------------------------------------------------
+super_monitor:
+	addq.w	#1,(a2)
+	addi.w	#50,(Ring_count).w
+	cmpi.w	#2,(Player_mode).w	; is player using Tails?
+	beq.s	.nosuper	; if yes, branch
+	move.b	#1,(Super_Sonic_palette).w
+	move.b	#$F,(Palette_timer).w
+	move.b	#1,(Super_Sonic_flag).w
+	move.b	#$81,(MainCharacter+obj_control).w
+	move.b	#AniIDSupSonAni_Transform,(MainCharacter+anim).w			; use transformation animation
+	move.b	#ObjID_SuperSonicStars,(SuperSonicStars+id).w ; load Obj7E (Super Sonic stars object) at $FFFFD040
+	move.w	#$A00,(Sonic_top_speed).w
+	move.w	#$30,(Sonic_acceleration).w
+	move.w	#$100,(Sonic_deceleration).w
+	move.w	#0,(MainCharacter+invincibility_time).w
+	bset	#status_secondary.invincible,status_secondary(a1)	; make Sonic invincible
+	move.w	#SndID_SuperTransform,d0
+	jsr	(PlaySound).l	; Play transformation sound effect.
+	move.w	#MusID_SuperSonic,d0
+	jmp	(PlayMusic).l	; load the Super Sonic song and return
+	
+.nosuper:
+	rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; '?' Monitor
@@ -26125,8 +26141,9 @@ Ani_obj26:	offsetTable
 		offsetTableEntry.w Ani_obj26_Shield		;  6
 		offsetTableEntry.w Ani_obj26_Invincibility	;  7
 		offsetTableEntry.w Ani_obj26_Teleport		;  8
-		offsetTableEntry.w Ani_obj26_QuestionMark	;  9
-		offsetTableEntry.w Ani_obj26_Broken		; $A
+		offsetTableEntry.w Ani_obj26_Super		;  9
+		offsetTableEntry.w Ani_obj26_QuestionMark	;  $A
+		offsetTableEntry.w Ani_obj26_Broken		; $B
 ; byte_12CE4:
 Ani_obj26_Static:
 	dc.b	$01	; duration
@@ -26157,12 +26174,15 @@ Ani_obj26_Invincibility:
 ; byte_12D20:
 Ani_obj26_Teleport:
 	dc.b   1,  0,  9,  9,  1,  9,  9,$FF
+; byte_idk:
+Ani_obj26_Super:
+	dc.b   1,  0,  $A,  $A,  1,  $A,  $A,$FF
 ; byte_12D28:
 Ani_obj26_QuestionMark:
-	dc.b   1,  0, $A, $A,  1, $A, $A,$FF
+	dc.b   1,  0, $B, $B,  1, $B, $B,$FF
 ; byte_12D30:
 Ani_obj26_Broken:
-	dc.b   2,  0,  1, $B,$FE,  1
+	dc.b   2,  0,  1, $C,$FE,  1
 	even
 ; ---------------------------------------------------------------------------
 ; Sprite mappings

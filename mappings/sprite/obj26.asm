@@ -1,73 +1,79 @@
-Map_obj26:	mappingsTable
-	mappingsTableEntry.w	Map_obj26_0018
-	mappingsTableEntry.w	Map_obj26_0022
-	mappingsTableEntry.w	Map_obj26_0034
-	mappingsTableEntry.w	Map_obj26_0046
-	mappingsTableEntry.w	Map_obj26_0058
-	mappingsTableEntry.w	Map_obj26_006A
-	mappingsTableEntry.w	Map_obj26_007C
-	mappingsTableEntry.w	Map_obj26_008E
-	mappingsTableEntry.w	Map_obj26_00A0
-	mappingsTableEntry.w	Map_obj26_00B2
-	mappingsTableEntry.w	Map_obj26_00C4
-	mappingsTableEntry.w	Map_obj26_00D6
+.internal: mappingsTable
+	mappingsTableEntry.w	.internal_0
+	mappingsTableEntry.w	.internal_1
+	mappingsTableEntry.w	.internal_2
+	mappingsTableEntry.w	.internal_3
+	mappingsTableEntry.w	.internal_4
+	mappingsTableEntry.w	.internal_5
+	mappingsTableEntry.w	.internal_6
+	mappingsTableEntry.w	.internal_7
+	mappingsTableEntry.w	.internal_8
+	mappingsTableEntry.w	.internal_9
+	mappingsTableEntry.w	.internal_10
+	mappingsTableEntry.w	.internal_11
+	mappingsTableEntry.w	.internal_12
 
-Map_obj26_0018:	spriteHeader
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_0018_End
+.internal_0:	spriteHeader
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_0_End
 
-Map_obj26_0022:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $18, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_0022_End
+.internal_1:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $18, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_1_End
 
-Map_obj26_0034:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $154, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_0034_End
+.internal_2:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $154, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_2_End
 
-Map_obj26_0046:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $1C, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_0046_End
+.internal_3:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $1C, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_3_End
 
-Map_obj26_0058:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $20, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_0058_End
+.internal_4:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $20, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_4_End
 
-Map_obj26_006A:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $24, 0, 0, 1, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_006A_End
+.internal_5:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $24, 0, 0, 1, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_5_End
 
-Map_obj26_007C:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $28, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_007C_End
+.internal_6:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $28, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_6_End
 
-Map_obj26_008E:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $2C, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_008E_End
+.internal_7:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $2C, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_7_End
 
-Map_obj26_00A0:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $30, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_00A0_End
+.internal_8:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $30, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_8_End
 
-Map_obj26_00B2:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $38, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_00B2_End
+.internal_9:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $38, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_9_End
 
-Map_obj26_00C4:	spriteHeader
-	spritePiece	-8, -$B, 2, 2, $34, 0, 0, 0, 0
-	spritePiece	-$10, -$11, 4, 4, 0, 0, 0, 0, 0
-Map_obj26_00C4_End
+.internal_10:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $3C, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_10_End
 
-Map_obj26_00D6:	spriteHeader
-	spritePiece	-$10, -1, 4, 2, $10, 0, 0, 0, 0
-Map_obj26_00D6_End
+.internal_11:	spriteHeader
+ spritePiece -8, -$B, 2, 2, $34, 0, 0, 0, 0
+ spritePiece -$10, -$11, 4, 4, 0, 0, 0, 0, 0
+.internal_11_End
+
+.internal_12:	spriteHeader
+ spritePiece -$10, -1, 4, 2, $10, 0, 0, 0, 0
+.internal_12_End
 
 	even
