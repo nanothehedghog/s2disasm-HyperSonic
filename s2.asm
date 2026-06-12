@@ -26082,6 +26082,7 @@ super_monitor:
 	move.b	#$81,(MainCharacter+obj_control).w
 	move.b	#AniIDSupSonAni_Transform,(MainCharacter+anim).w			; use transformation animation
 	move.b	#ObjID_SuperSonicStars,(SuperSonicStars+id).w ; load Obj7E (Super Sonic stars object) at $FFFFD040
+	move.b	#ObjID_HyperTrails,(HyperTrails+id).w ; load Obj0C
 	move.w	#$A00,(Sonic_top_speed).w
 	move.w	#$30,(Sonic_acceleration).w
 	move.w	#$100,(Sonic_deceleration).w
@@ -29824,7 +29825,7 @@ ObjPtr_Splash:		dc.l Obj08	; Water splash in Aquatic Ruin Zone, Spindash dust
 ObjPtr_SonicSS:		dc.l Obj09	; Sonic in Special Stage
 ObjPtr_SmallBubbles:	dc.l Obj0A	; Small bubbles from Sonic's face while underwater
 ObjPtr_TippingFloor:	dc.l Obj0B	; Section of pipe that tips you off from CPZ
-			dc.l Obj0C	; Small floating platform (unused)
+ObjPtr_HyperTrails:			dc.l Obj0C	; Small floating platform (unused)
 ObjPtr_Signpost:	dc.l Obj0D	; End of level signpost
 ObjPtr_TitleIntro:	dc.l Obj0E	; Title screen intro animation
 ObjPtr_TitleMenu:	dc.l Obj0F	; Title screen menu
@@ -37386,6 +37387,7 @@ Sonic_CheckGoSuper:
 	move.b	#$81,obj_control(a0)
 	move.b	#AniIDSupSonAni_Transform,anim(a0)			; use transformation animation
 	move.b	#ObjID_SuperSonicStars,(SuperSonicStars+id).w ; load Obj7E (Super Sonic stars object) at $FFFFD040
+	move.b	#ObjID_HyperTrails,(HyperTrails+id).w ; load Obj0C
 	move.w	#$A00,(Sonic_top_speed).w
 	move.w	#$30,(Sonic_acceleration).w
 	move.w	#$100,(Sonic_deceleration).w
@@ -45837,92 +45839,35 @@ Obj0C_Index:	offsetTable
 		offsetTableEntry.w Obj0C_Init	; 0
 		offsetTableEntry.w Obj0C_Main	; 2
 ; ===========================================================================
-; loc_20222:
 Obj0C_Init:
 	addq.b	#2,routine(a0)
-	move.l	#Obj0C_MapUnc_202FA,mappings(a0)
-	move.w	#make_art_tile(ArtTile_ArtNem_FloatPlatform,3,1),art_tile(a0)
+	move.l	#MapUnc_Sonic,mappings(a0)	; If not, you must be Hyper Sonic, load Super/Hyper Sonic mappings
+	move.w	#make_art_tile(ArtUnc_Sonic,0,0),art_tile(a0)
 	jsrto	JmpTo9_Adjust2PArtPointer
-	ori.b	#1<<render_flags.level_fg,render_flags(a0)
-	move.b	#$10,width_pixels(a0)
-	move.b	#4,priority(a0)
-	move.w	y_pos(a0),d0
-	subi.w	#$10,d0
-	move.w	d0,objoff_3A(a0)
-	moveq	#0,d0
-	move.b	subtype(a0),d0
-	andi.w	#$F0,d0
-	addi.w	#$10,d0
-	move.w	d0,d1
-	subq.w	#1,d0
-	move.w	d0,objoff_30(a0)
-	move.w	d0,objoff_32(a0)
-	moveq	#0,d0
-	move.b	subtype(a0),d0
-	andi.w	#$F,d0
-	move.b	d0,objoff_3E(a0)
-	move.b	d0,objoff_3F(a0)
-; loc_20282:
+	move.b	#2,priority(a0)
+	move.b	#$18,width_pixels(a0)
+	move.b	#4,render_flags(a0)
 Obj0C_Main:
-	move.b	objoff_3C(a0),d0
-	beq.s	loc_202C0
-	cmpi.b	#$80,d0
-	bne.s	loc_202D0
-	move.b	objoff_3D(a0),d1
-	bne.s	loc_202A2
-	subq.b	#1,objoff_3E(a0)
-	bpl.s	loc_202A2
-	move.b	objoff_3F(a0),objoff_3E(a0)
-	bra.s	loc_202D0
-; ===========================================================================
-
-loc_202A2:
-	addq.b	#1,objoff_3D(a0)
-	move.b	d1,d0
-	jsrto	JmpTo5_CalcSine
-	addi_.w	#8,d0
-	asr.w	#6,d0
-	subi.w	#$10,d0
-	add.w	objoff_3A(a0),d0
-	move.w	d0,y_pos(a0)
-	bra.s	loc_202E6
-; ===========================================================================
-
-loc_202C0:
-	move.w	(Vint_runcount+2).w,d1
-	andi.w	#$3FF,d1
-	bne.s	loc_202D4
-	move.b	#1,objoff_3D(a0)
-
-loc_202D0:
-	addq.b	#1,objoff_3C(a0)
-
-loc_202D4:
-	jsrto	JmpTo5_CalcSine
-	addi_.w	#8,d1
-	asr.w	#4,d1
-	add.w	objoff_3A(a0),d1
-	move.w	d1,y_pos(a0)
-
-loc_202E6:
-	moveq	#0,d1
-	move.b	width_pixels(a0),d1
-	moveq	#9,d3
-	move.w	x_pos(a0),d4
-	bsr.w	PlatformObject
-	jmpto	JmpTo4_MarkObjGone
-; ===========================================================================
-; ----------------------------------------------------------------------------
-; Unused sprite mappings
-; ----------------------------------------------------------------------------
-Obj0C_MapUnc_202FA:	include "mappings/sprite/obj0C.asm"
-; ===========================================================================
-
-	jmpTos JmpTo4_MarkObjGone,JmpTo9_Adjust2PArtPointer,JmpTo5_CalcSine
-
-
-
-
+	tst.b	(Super_Sonic_flag).w	; Are we in non-super/hyper state?
+	beq.w	.Delete		; If so, branch and delete
+	moveq	#$C,d1				; This will be subtracted from Pos_table_index, giving the object an older entry
+	btst	#0,(Level_frame_counter+1).w	; Even frame? (Think of it as 'every other number' logic)
+	beq.s	+			; If so, branch
+	moveq	#$14,d1				; On every other frame, use a different number to subtract, giving the object an even older entry
++
+	move.w	(Sonic_Pos_Record_Index).w,d0
+	lea	(Sonic_Pos_Record_Buf).w,a1
+	sub.b	d1,d0
+	lea	(a1,d0.w),a1
+	move.w	(a1)+,x_pos(a0)			; Use previous player x_pos
+	move.w	(a1)+,y_pos(a0)			; Use previous player y_pos
+	move.b	(MainCharacter+mapping_frame).w,mapping_frame(a0)	; Use player's current mapping_frame
+	move.b	(MainCharacter+render_flags).w,render_flags(a0)	; Use player's current render_flags
+	move.b	(MainCharacter+priority).w,priority(a0)		; Use player's current priority
+	jmp		(DisplaySprite).l
+.Delete:
+	jmp		(DeleteObject).l
+; ---------------------------------------------------------------------------
 ; ===========================================================================
 ; ----------------------------------------------------------------------------
 ; Object 12 - Emerald from Hidden Palace Zone (unused)
