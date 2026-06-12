@@ -26088,7 +26088,8 @@ super_monitor:
 	jmp	(PlayMusic).l	; load the Super Sonic song and return
 	
 .nosuper:
-	rts
+	move.w	#SndID_Error,d0
+	jsr	(PlaySound).l	; Play transformation sound effect.
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; '?' Monitor
