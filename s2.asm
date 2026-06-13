@@ -26072,10 +26072,11 @@ super_monitor:
 	bne.s	.Not_Tails	; if yes, branch
 	move.w	#SndID_Error,d0
 	jsr	(PlaySound).l	; Play transformation sound effect.
-	rts
 
 .Not_Tails:
 	addi.w	#50,(Ring_count).w
+	tst.b	(Super_Sonic_flag).w
+	bne.s	.nothing
 	move.b	#1,(Super_Sonic_palette).w
 	move.b	#$F,(Palette_timer).w
 	move.b	#1,(Super_Sonic_flag).w
@@ -26092,6 +26093,9 @@ super_monitor:
 	jsr	(PlaySound).l	; Play transformation sound effect.
 	move.w	#MusID_SuperSonic,d0
 	jmp	(PlayMusic).l	; load the Super Sonic song and return
+	
+.nothing:
+	rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; '?' Monitor
