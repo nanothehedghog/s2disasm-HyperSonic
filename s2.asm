@@ -45824,8 +45824,8 @@ Obj0B_MapUnc_201A0:	include "mappings/sprite/obj0B.asm"
 
 ; ===========================================================================
 ; ----------------------------------------------------------------------------
-; Object 0C - Small floating platform (unused)
-; (used in CPZ in the Nick Arcade prototype)
+; Object 0C - Afterimages/HyperTrails
+; (used for Hyper Sonic)
 ; ----------------------------------------------------------------------------
 ; Sprite_20210:
 Obj0C:
@@ -45842,7 +45842,7 @@ Obj0C_Index:	offsetTable
 Obj0C_Init:
 	addq.b	#2,routine(a0)
 	move.l	#MapUnc_Sonic,mappings(a0)	; If not, you must be Hyper Sonic, load Super/Hyper Sonic mappings
-	move.w	#make_art_tile(ArtUnc_Sonic,0,0),art_tile(a0)
+	move.w	#make_art_tile(ArtTile_ArtUnc_Sonic,0,0),art_tile(a0)
 	jsrto	JmpTo9_Adjust2PArtPointer
 	move.b	#2,priority(a0)
 	move.b	#$18,width_pixels(a0)
