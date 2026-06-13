@@ -26107,25 +26107,7 @@ super_monitor:
 ; ---------------------------------------------------------------------------
 qmark_monitor:
 	addq.w	#1,(a2)
-    if 0
-	move.b	#1,(Super_Sonic_palette).w
-	move.b	#$F,(Palette_timer).w
-	move.b	#1,(Super_Sonic_flag).w
-	move.b	#$81,(MainCharacter+obj_control).w
-	move.b	#AniIDSupSonAni_Transform,(MainCharacter+anim).w	; use transformation animation
-	move.b	#ObjID_SuperSonicStars,(SuperSonicStars+id).w	; load Obj7E (Super Sonic stars object) at $FFFFD040
-	move.w	#$A00,(Sonic_top_speed).w
-	move.w	#$30,(Sonic_acceleration).w
-	move.w	#$100,(Sonic_deceleration).w
-	move.w	#0,(MainCharacter+invincibility_time).w
-	bset	#status_secondary.invincible,status_secondary(a1)
-	move.w	#SndID_SuperTransform,d0
-	jsr	(PlaySound).l	; play transformation sound effect.
-	move.w	#MusID_SuperSonic,d0
-	jmp	(PlayMusic).l	; play Super Sonic umsic
-    else
 	rts
-    endif
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Holds icon in place for a while, then destroys it
